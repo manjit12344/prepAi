@@ -9,14 +9,15 @@ const History = () => {
   const { know, knowMe } = userAuth();
   const { myInterviews, interview } = useHistory();
 
-  useEffect(()=>{
-      async function all(){
-        await knowMe()
-      }
-      if(know?.user){
-        navigate("/features")
-      }
-    },[])
+ useEffect(() => {
+  const checkAuth = async () => {
+    await knowMe();
+  };
+
+  checkAuth();
+}, []);
+
+
 
   if (!know?.user) {
     return (

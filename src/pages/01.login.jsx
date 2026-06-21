@@ -57,14 +57,21 @@ const FEATURES = [
 export default function LandingPage() {
   const navigate = useNavigate();
   const {know,knowMe} = userAuth();
-  useEffect(()=>{
-    async function all(){
-      await knowMe()
-    }
-    if(know?.user){
-      navigate("/features")
-    }
-  },[])
+  useEffect(() => {
+  const checkAuth = async () => {
+    await knowMe();
+  };
+
+  checkAuth();
+}, []);
+
+useEffect(() => {
+  console.log("know:", know);
+
+  if (know?.user) {
+    navigate("/features");
+  }
+}, [know]);
   const role = useTypewriter(ROLES);
   const canvasRef = useRef(null);
 

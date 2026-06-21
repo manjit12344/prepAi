@@ -23,14 +23,15 @@ const ChatSession = () => {
   const MAX_ROWS = 4;
 
   // 1. Initial Authentication and Data Fetch
-useEffect(()=>{
-    async function all(){
-      await knowMe()
-    }
-    if(know?.user){
-      navigate("/features")
-    }
-  },[])
+useEffect(() => {
+  const checkAuth = async () => {
+    await knowMe();
+  };
+
+  checkAuth();
+}, []);
+
+
 
   useEffect(() => {
     if (nId) {

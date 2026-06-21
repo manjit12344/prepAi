@@ -7,14 +7,21 @@ const Features = () => {
   const { know, knowMe } = userAuth();
   const navigate = useNavigate();
 
-useEffect(()=>{
-    async function all(){
-      await knowMe()
-    }
-    if(know?.user){
-      navigate("/features")
-    }
-  },[])
+useEffect(() => {
+  const checkAuth = async () => {
+    await knowMe();
+  };
+
+  checkAuth();
+}, []);
+
+useEffect(() => {
+  console.log("know:", know);
+
+  if (know?.user) {
+    navigate("/features");
+  }
+}, [know]);
 
   // Get user name or use "Guest" as a fallback
   const userName = know?.user?.displayName || know?.user?.email?.split('@')[0] || "Guest";

@@ -39,14 +39,15 @@ const CreateNew = () => {
     company: "",
   });
 
- useEffect(()=>{
-     async function all(){
-       await knowMe()
-     }
-     if(know?.user){
-       navigate("/features")
-     }
-   },[])
+ useEffect(() => {
+  const checkAuth = async () => {
+    await knowMe();
+  };
+
+  checkAuth();
+}, []);
+
+
 
   const current = STEPS[step];
   const isLastStep = step === STEPS.length - 1;
