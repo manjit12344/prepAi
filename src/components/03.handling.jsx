@@ -99,7 +99,7 @@ const Login = () => {
                 </p>
 
                 <a 
-                  href="http://localhost:3000/auth/google"
+                  href="https://prep-ai-backend-nine.vercel.app/auth/google"
  
                   className="w-full flex items-center justify-center gap-3 bg-canvas border border-line px-4 py-2.5 rounded font-mono text-xs font-medium text-main hover:opacity-80 transition-all no-underline shadow-sm"
                 >
