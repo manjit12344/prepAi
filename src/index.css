@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+/* Define premium balanced theme tokens */
+:root {
+  --background: #f8f9fa;     /* Soft off-white canvas backdrop instead of blinding pure white */
+  --text: #121214;           /* High-contrast rich charcoal-black for clear text readability */
+  --border: #e2e8f0;         /* Clean, sharp layout lines */
+  --card: #ffffff;           /* Crisp pure white so card frames and input blocks pop beautifully */
+}
+
+.dark {
+  --background: #09090b;
+  --text: #f4f4f5;
+  --border: #27272a;
+  --card: #18181b;
+}
+
+/* Apply your base styles using these variables */
+body {
+  background-color: var(--background);
+  color: var(--text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bg-canvas {
+  background-color: var(--background);
+}
+
+.text-main {
+  color: var(--text);
+}
+
+.border-line {
+  border-color: var(--border);
+}
+
+.bg-card {
+  background-color: var(--card);
+}
+
+/* Keeps secondary items perfectly soft across both themes */
+.text-muted {
+  color: color-mix(in srgb, var(--text) 60%, transparent);
+}
