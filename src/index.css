@@ -2,26 +2,40 @@
 
 @variant dark (&:where(.dark, .dark *));
 
-/* Define premium balanced theme tokens */
 :root {
-  --background: #f8f9fa;     /* Soft off-white canvas backdrop instead of blinding pure white */
-  --text: #121214;           /* High-contrast rich charcoal-black for clear text readability */
-  --border: #e2e8f0;         /* Clean, sharp layout lines */
-  --card: #ffffff;           /* Crisp pure white so card frames and input blocks pop beautifully */
+  /* Warm premium white */
+  --background: #fafaf9;
+
+  /* Rich charcoal */
+  --text: #111827;
+
+  /* Cleaner borders */
+  --border: #e5e7eb;
+
+  /* Elevated cards */
+  --card: #ffffff;
 }
 
 .dark {
-  --background: #09090b;
-  --text: #f4f4f5;
-  --border: #27272a;
-  --card: #18181b;
+  /* Slightly softer than pure black */
+  --background: #0f1117;
+
+  /* Comfortable white */
+  --text: #f8fafc;
+
+  /* Cleaner dark borders */
+  --border: #23262d;
+
+  /* Elevated dark cards */
+  --card: #161a22;
 }
 
-/* Apply your base styles using these variables */
 body {
   background-color: var(--background);
   color: var(--text);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .bg-canvas {
@@ -40,7 +54,10 @@ body {
   background-color: var(--card);
 }
 
-/* Keeps secondary items perfectly soft across both themes */
 .text-muted {
-  color: color-mix(in srgb, var(--text) 60%, transparent);
+  color: color-mix(
+    in srgb,
+    var(--text) 62%,
+    transparent
+  );
 }

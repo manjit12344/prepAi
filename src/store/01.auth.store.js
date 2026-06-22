@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const base_url = "https://prep-ai-backend-nine.vercel.app"
+axios.defaults.withCredentials = true;
+
+const base_url = "http://localhost:3000"
 
 // user Authentication handling
 
@@ -14,9 +16,7 @@ export const userAuth = create((set, get) => ({
     knowMe: async () => {
         set({ loading: true });
         try{
-         const response = await axios.get(`${base_url}/knowMe`,{
-            withCredentials:true
-         })
+         const response = await axios.get(`${base_url}/knowMe`)
          set({know:response.data,error:null,loading:false});
 
         }catch(error){
@@ -26,9 +26,7 @@ export const userAuth = create((set, get) => ({
     logOut: async()=>{
         set({ loading: true });
         try{
-            const response = await axios.get(`${base_url}/logOut`,{
-                withCredentials:true
-            })
+            const response = await axios.get(`${base_url}/logOut`)
             set({logger:response.data,know:{},error:null,loading:false});
 
         }

@@ -10,36 +10,49 @@ const Login = () => {
   useEffect(() => {
     const canvas = document.getElementById("auth-canvas");
     if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
-    
+
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
+
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
+
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
+
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
-      
+
       const gap = 32;
-      // Pull computed text color dynamically to render background grid system flawlessly
-      const isDarkTheme = document.documentElement.classList.contains("dark");
-      ctx.fillStyle = isDarkTheme ? "rgba(255, 255, 255, 0.02)" : "rgba(9, 9, 11, 0.03)";
-      
+
+      const isDark =
+        document.documentElement.classList.contains("dark");
+
+      ctx.fillStyle = isDark
+        ? "rgba(255,255,255,0.025)"
+        : "rgba(0,0,0,0.04)";
+
       for (let x = gap; x < canvas.offsetWidth; x += gap) {
         for (let y = gap; y < canvas.offsetHeight; y += gap) {
           ctx.beginPath();
-          ctx.arc(x, y, 0.75, 0, Math.PI * 2);
+          ctx.arc(x, y, 0.8, 0, Math.PI * 2);
           ctx.fill();
         }
       }
     };
-    
+
     resize();
-    window.addEventListener("resize", resize);
     knowMe();
 
-    // Re-check grid styling if theme class mutates over DOM layout lifecycles
+    window.addEventListener("resize", resize);
+
     const observer = new MutationObserver(resize);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
     return () => {
       window.removeEventListener("resize", resize);
@@ -49,121 +62,155 @@ const Login = () => {
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
+
     try {
       await logOut();
       navigate("/login-signup");
     } catch (err) {
-      console.error("Logout failed:", err);
+      console.error(err);
     } finally {
       setIsLoggingOut(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-canvas text-main font-sans antialiased flex flex-col justify-between relative overflow-hidden transition-colors duration-150">
-      {/* Background Layer */}
-      <canvas id="auth-canvas" className="absolute inset-0 w-full h-full pointer-events-none z-0" />
+    <div className="min-h-screen bg-canvas text-main flex flex-col justify-between relative overflow-hidden transition-colors duration-150">
+      {/* Background */}
+      <canvas
+        id="auth-canvas"
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+      />
 
-      {/* Header Area */}
-      <header className="relative z-10 max-w-6xl mx-auto w-full px-6 h-14 flex items-center">
-        <span className="font-mono text-sm tracking-tight font-semibold text-main opacity-90">prepAI</span>
+      {/* Header */}
+      <header className="relative z-10 max-w-6xl mx-auto w-full h-14 flex items-center px-6">
+        <span className="font-mono text-sm font-semibold tracking-tight">
+          prepAI
+        </span>
       </header>
 
-      {/* Main Authentication Box Card */}
-      <main className="relative z-10 flex flex-col items-center justify-center p-6 w-full max-w-sm mx-auto my-auto">
-        <div className="w-full bg-card border border-line rounded-lg shadow-xl overflow-hidden">
-          
-          {/* Box Header Tab Line */}
-          <div className="bg-canvas opacity-80 px-4 py-2.5 border-b border-line flex items-center justify-between">
-            <span className="text-[11px] text-muted font-mono tracking-tight">
-              {isLoggingOut ? "terminating_session.sh" : know?.user ? "active_session.env" : "secure_gateway.sh"}
+      {/* Main */}
+      <main className="relative z-10 flex items-center justify-center px-6">
+        <div className="w-full max-w-sm bg-card border border-line rounded-xl shadow-xl overflow-hidden">
+          {/* Window Header */}
+          <div className="px-4 py-3 border-b border-line bg-canvas/50 flex items-center justify-between">
+            <span className="font-mono text-[11px] text-muted">
+              {know?.user ? "session.active" : "login.secure"}
             </span>
+
             <div className="flex gap-1.5">
-              <span className={`w-1.5 h-1.5 rounded-full ${isLoggingOut ? "bg-amber-500/60 animate-pulse" : "bg-line"}`} />
-              <span className={`w-1.5 h-1.5 rounded-full ${isLoggingOut ? "bg-amber-500/60 animate-pulse" : "bg-line"}`} />
+              <span className="w-2 h-2 rounded-full bg-line" />
+              <span className="w-2 h-2 rounded-full bg-line" />
+              <span className="w-2 h-2 rounded-full bg-line" />
             </div>
           </div>
 
-          <div className="p-6 md:p-8 flex flex-col items-center text-center min-h-[240px] justify-center">
-            
+          <div className="p-8">
             {!know?.user ? (
-              /* State A: Login UI */
               <>
-                <div className="mb-6 w-full">
-                  <span className="font-mono text-sm tracking-tight font-semibold text-main uppercase">Authentication</span>
-                  <p className="text-[11px] text-muted font-mono mt-1">session_token_required</p>
-                </div>
+                {/* Logo Area */}
+                <div className="flex flex-col items-center text-center">
+                  
+                  <h1 className="font-mono text-lg font-semibold">
+                    Welcome to prepAI
+                  </h1>
 
-                <p className="text-xs text-muted font-mono leading-relaxed mb-6 max-w-[250px]">
-                  Sign in with Google to provision sandbox environments and sync real-time telemetry.
-                </p>
-
-                <a 
-                  href="https://prep-ai-backend-nine.vercel.app/auth/google"
- 
-                  className="w-full flex items-center justify-center gap-3 bg-canvas border border-line px-4 py-2.5 rounded font-mono text-xs font-medium text-main hover:opacity-80 transition-all no-underline shadow-sm"
-                >
-                  <svg 
-                    className="w-4 h-4 text-muted" 
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 12h5.5" />
-                    <path d="M12 7c2.5 0 4.5 1.5 5.2 3.5" />
-                  </svg>
-                  <span>Sign in with Google</span>
-                </a>
-              </>
-            ) : (
-              /* State B: Dashboard/Log Out interface */
-              <>
-                <div className="mb-4 w-full">
-                  <div className="w-8 h-8 rounded-full border border-line bg-canvas mx-auto mb-3 flex items-center justify-center text-muted font-mono text-xs font-semibold overflow-hidden uppercase">
-                    {know.user.email?.charAt(0) || "U"}
-                  </div>
-                  <span className="font-mono text-sm tracking-tight font-medium text-main">Active Handshake</span>
-                  <p className="text-[10px] text-emerald-500 font-mono mt-0.5 tracking-tight break-all max-w-[220px] mx-auto">
-                    {know.user.email}
+                  <p className="font-mono text-xs text-muted mt-2 mb-8 max-w-xs">
+                    Sign in with Google to continue.
                   </p>
                 </div>
 
-                <p className="text-xs text-muted font-mono leading-relaxed mb-6">
-                  You are currently authenticated into the prepAI orchestration layer.
-                </p>
-
-                <button 
-                  onClick={handleLogout}
-                  disabled={isLoggingOut}
-                  className="w-full bg-main text-canvas disabled:opacity-40 px-4 py-2 rounded font-mono text-xs font-semibold tracking-tight transition-all flex items-center justify-center gap-2"
+                {/* Google Button */}
+                <a
+                  href="http://localhost:3000/auth/google"
+                  className="w-full h-11 border border-line rounded-lg bg-canvas flex items-center justify-center gap-3 hover:opacity-80 transition-all no-underline"
                 >
-                  {isLoggingOut ? (
-                    <>
-                      <span className="w-2 h-2 rounded-full bg-canvas/60 animate-ping" />
-                      <span>clearing_state...</span>
-                    </>
-                  ) : (
-                    "terminate_session (logout)"
-                  )}
-                </button>
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 48 48"
+                  >
+                    <path
+                      fill="#FFC107"
+                      d="M43.6 20.5H42V20H24v8h11.3C33.6 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12S17.4 12 24 12c3 0 5.7 1.1 7.8 3l5.7-5.7C34.1 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"
+                    />
+                    <path
+                      fill="#FF3D00"
+                      d="M6.3 14.7l6.6 4.8C14.7 15 18.9 12 24 12c3 0 5.7 1.1 7.8 3l5.7-5.7C34.1 6.1 29.3 4 24 4c-7.7 0-14.4 4.3-17.7 10.7z"
+                    />
+                    <path
+                      fill="#4CAF50"
+                      d="M24 44c5.2 0 10-2 13.5-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.3 2.4-5.2 0-9.6-3.3-11.2-8l-6.6 5.1C9.5 39.6 16.2 44 24 44z"
+                    />
+                    <path
+                      fill="#1976D2"
+                      d="M43.6 20.5H42V20H24v8h11.3c-1.1 3.1-3.4 5.5-6.7 7.2l6.2 5.2C38.5 37 44 31.2 44 24c0-1.3-.1-2.4-.4-3.5z"
+                    />
+                  </svg>
+
+                  <span className="font-mono text-xs font-medium">
+                    Continue with Google
+                  </span>
+                </a>
+
+                <p className="mt-5 text-center font-mono text-[10px] text-muted">
+                  Fast. Secure. Simple.
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full border border-line bg-canvas flex items-center justify-center font-mono text-sm font-semibold uppercase mb-4">
+                    {know.user.email?.charAt(0)}
+                  </div>
+
+                  <h2 className="font-mono text-lg font-semibold">
+                    You're signed in
+                  </h2>
+
+                  <p className="font-mono text-xs text-muted mt-2 break-all">
+                    {know.user.email}
+                  </p>
+
+                  <p className="font-mono text-xs text-muted mt-5 mb-8">
+                    Your account is connected.
+                  </p>
+
+                  <button
+                    onClick={handleLogout}
+                    disabled={isLoggingOut}
+                    className="w-full h-11 bg-main text-canvas rounded-lg font-mono text-xs font-semibold disabled:opacity-50"
+                  >
+                    {isLoggingOut
+                      ? "Signing out..."
+                      : "Sign Out"}
+                  </button>
+                </div>
               </>
             )}
 
-            {/* Metric Footer State */}
-            <div className="mt-6 pt-5 border-t border-line w-full flex items-center justify-center gap-2">
-              <span className={`w-1 h-1 rounded-full ${know?.user ? "bg-emerald-500" : "bg-amber-500"}`} />
-              <span className="text-[10px] text-muted font-mono">
-                {know?.user ? "Active state cache synced" : "System idling — pending token"}
+            <div className="mt-8 pt-5 border-t border-line flex justify-center items-center gap-2">
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  know?.user
+                    ? "bg-emerald-500"
+                    : "bg-amber-500"
+                }`}
+              />
+
+              <span className="font-mono text-[10px] text-muted">
+                {know?.user
+                  ? "Connected"
+                  : "Waiting for sign in"}
               </span>
             </div>
-
           </div>
         </div>
       </main>
 
-      {/* Footer Element */}
-      <footer className="relative z-10 max-w-6xl mx-auto w-full px-6 py-6 text-center sm:text-left">
+      {/* Footer */}
+      <footer className="relative z-10 max-w-6xl mx-auto w-full px-6 py-6 text-center">
         <span className="font-mono text-[11px] text-muted">
-          © 2026 prepAI framework architecture. Secure handshake baseline.
+          © 2026 prepAI
         </span>
       </footer>
     </div>

@@ -7,18 +7,25 @@ import { Clock, ChevronRight } from "lucide-react";
 const History = () => {
   const navigate = useNavigate();
   const { know, knowMe } = userAuth();
-  const { myInterviews, interview } = useHistory();
+  const { myInterviews, interview, loading } = useHistory();
 
- useEffect(() => {
-  const checkAuth = async () => {
-    await knowMe();
-  };
+  useEffect(() => {
+    const checkAuthAndFetchHistory = async () => {
+      // 1. Authenticate the user
+      await knowMe();
+    };
 
-  checkAuth();
-}, []);
+    checkAuthAndFetchHistory();
+  }, []);
 
+  // 2. Fetch the interview history once the user identity is confirmed
+  useEffect(() => {
+    if (know?.user) {
+      myInterviews();
+    }
+  }, [know?.user, myInterviews]);
 
-
+  // Handle unauthenticated view
   if (!know?.user) {
     return (
       <div className="flex min-h-screen bg-canvas items-center justify-center font-mono text-xs text-muted">
@@ -50,7 +57,11 @@ const History = () => {
 
         {/* Sessions Stack Feed */}
         <div className="space-y-3">
-          {interview && interview.length > 0 ? (
+          {loading ? (
+            <div className="border border-dashed border-line p-8 rounded-lg text-center font-mono text-xs text-muted opacity-60 animate-pulse">
+              Loading sessions...
+            </div>
+          ) : interview && interview.length > 0 ? (
             interview.map((e) => (
               <div 
                 key={e.id} 

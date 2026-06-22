@@ -41,17 +41,20 @@ function useTypewriter(words, speed = 50, pause = 2000) {
 
 const FEATURES = [
   {
-    label: "Targeted Reps",
-    detail: "AI agents dynamically emulate actual interviewing rubrics derived from real-world Big Tech and startup pipelines.",
+    label: "Real Interview Flow",
+    detail:
+      "Practice questions that feel like actual interviews from top tech companies."
   },
   {
-    label: "Analytical Evaluation",
-    detail: "Receive precise telemetry on code efficiency, systems design trade-offs, and communication signals instantly.",
+    label: "Instant Feedback",
+    detail:
+      "Get detailed feedback on communication, problem solving and technical depth."
   },
   {
-    label: "Adaptive Difficulty",
-    detail: "The simulator detects conversational pacing and introduces unexpected system failures or complex scope shifts.",
-  },
+    label: "AI Interviewer",
+    detail:
+      "Adaptive interview sessions that respond naturally to your answers."
+  }
 ];
 
 export default function LandingPage() {
@@ -142,42 +145,62 @@ useEffect(() => {
       </header>
 
       {/* Hero Content Section */}
-      <main className="relative z-10 max-w-4xl mx-auto px-6 pt-20 md:pt-28 pb-16 text-center">
-        <div className="inline-flex items-center gap-2 text-[10px] font-mono text-muted tracking-wider uppercase mb-6 bg-card border border-line px-3 py-1 rounded">
-          Automated Technical Interview Simulator
-        </div>
+    <main className="relative z-10 max-w-5xl mx-auto px-6 pt-24 md:pt-32 pb-20 text-center">
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight leading-[1.1] mb-6 text-main">
-          Production-grade interview reps.
-        </h1>
+  <div className="inline-flex items-center gap-2 text-[10px] font-mono text-muted tracking-wider uppercase mb-8 bg-card border border-line px-3 py-1 rounded">
+    AI Mock Interview Platform
+  </div>
 
-        <p className="text-sm md:text-base text-muted max-w-xl mx-auto mb-10 leading-relaxed font-mono min-h-[3rem]">
-          Simulate standard loops for{" "}
-          <span className="text-main border-b border-line pb-0.5 inline-block">
-            {role || <span className="opacity-0">|</span>}
-            <span className="cursor-pulse font-sans font-light text-muted ml-0.5">_</span>
-          </span>
-        </p>
+  <h1 className="text-5xl sm:text-6xl md:text-7xl tracking-tight leading-none text-main mb-6">
+    Practice interviews.
+    <br />
+    Get hired faster.
+  </h1>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-          <Link to="/login-with-google" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto bg-main text-canvas px-6 py-2.5 rounded text-sm font-medium font-mono hover:opacity-90 transition-opacity">
-              init_session
-            </button>
-          </Link>
-          <span className="text-xs text-muted font-mono">Free tier includes 3 full credits.</span>
-        </div>
+  <p className="max-w-2xl mx-auto text-sm md:text-base text-muted font-mono leading-relaxed mb-8">
+    AI-powered mock interviews for frontend,
+    backend, system design and full-stack roles.
+  </p>
 
-        {/* Technical Features Matrix */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-4xl mx-auto pt-12 border-t border-line">
-          {FEATURES.map((f) => (
-            <div key={f.label} className="border border-line bg-card/40 p-5 rounded-md hover:border-muted/40 transition-colors">
-              <h3 className="text-xs font-mono text-main font-semibold uppercase tracking-wider mb-2">{f.label}</h3>
-              <p className="text-xs text-muted leading-relaxed font-sans">{f.detail}</p>
-            </div>
-          ))}
-        </div>
-      </main>
+  <div className="text-sm font-mono text-main mb-10 min-h-[28px]">
+    Preparing for{" "}
+    <span className="border-b border-line pb-1">
+      {role}
+      <span className="cursor-pulse ml-1">_</span>
+    </span>
+  </div>
+
+  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+    <Link to="/login-with-google">
+      <button className="bg-main text-canvas px-7 py-3 rounded-md text-sm font-mono hover:opacity-90 transition">
+        Start Free
+      </button>
+    </Link>
+
+    <span className="font-mono text-xs text-muted">
+      3 free interview credits
+    </span>
+  </div>
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-left max-w-5xl mx-auto pt-14 border-t border-line">
+
+  {FEATURES.map((feature) => (
+    <div
+      key={feature.label}
+      className="border border-line rounded-lg bg-card/50 p-6"
+    >
+      <h3 className="font-mono text-sm text-main mb-3">
+        {feature.label}
+      </h3>
+
+      <p className="text-xs text-muted leading-relaxed">
+        {feature.detail}
+      </p>
+    </div>
+  ))}
+
+</div>
+</main>
+       
 
       {/* Terminal Mockup Feature */}
       <section className="relative z-10 px-6 pb-24 max-w-3xl mx-auto">

@@ -2,7 +2,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
 
-const base_url = "https://prep-ai-backend-nine.vercel.app";
+
+axios.defaults.withCredentials = true;
+
+const base_url = "http://localhost:3000";
 
 
 export const userChat = create((set, get) => ({
@@ -16,10 +19,7 @@ export const userChat = create((set, get) => ({
         try {
             const response = await axios.post(`${base_url}/api/preInterview/`, {
                 type, level, company
-            },
-                {
-                    withCredentials: true
-                });
+            });
             set({ preReq: response.data,loading: false });
             return response.data
         }
@@ -35,8 +35,6 @@ export const userChat = create((set, get) => ({
         try {
             const response = await axios.post(`${base_url}/api/preInterview/conv`, {
                 id, qId, userResponse
-            }, {
-                withCredentials: true
             });
             console.log("RUNNING RESPONSE:", response.data);
 
