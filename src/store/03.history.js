@@ -3,7 +3,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const base_url = "https://prep-ai-backend-nine.vercel.app"
+const base_url = "http://localhost:3000"
 export const useHistory = create((set, get) => ({
     chat: [],
     interview: [],
