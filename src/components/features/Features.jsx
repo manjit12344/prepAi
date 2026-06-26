@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userAuth } from "../store/01.auth.store";
-import WelcomeSection from "../components/features/WelcomeSection";
-import StartInterviewCard from "../components/features/StartInterviewCard";
-import FeatureInfoList from "../components/features/FeatureInfoList";
-import DashboardFooter from "../components/features/DashboardFooter";
+import WelcomeSection from "../components/dashboard/WelcomeSection";
+import StartInterviewCard from "../components/dashboard/StartInterviewCard";
+import FeatureInfoList from "../components/dashboard/FeatureInfoList";
+import DashboardFooter from "../components/dashboard/DashboardFooter";
 
 const Features = () => {
   const { know, knowMe } = userAuth();
@@ -24,9 +24,14 @@ const Features = () => {
       navigate("/login-signup");
     }
   }, [authChecked, know, navigate]);
+
+  // Don't render anything until the auth check has actually resolved,
+  // and don't render the dashboard for a logged-out user (the effect above
+  // will redirect them away).
   if (!authChecked || !know?.user) {
     return null;
   }
+
   const userName = know?.user?.displayName || know?.user?.email?.split('@')[0] || "Guest";
 
   return (

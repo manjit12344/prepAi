@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { userAuth } from "../store/01.auth.store";
 import { userChat } from "../store/02.chat.store";
 import { useHistory } from "../store/03.history";
-import { buildChatMessages } from "../components/chatSession/buildChatMessages";
+import { buildChatMessages } from "../utils/buildChatMessages";
 import UnauthorizedNotice from "../components/chatSession/UnauthorizedNotice";
 import SessionHeader from "../components/chatSession/SessionHeader";
 import MessageList from "../components/chatSession/MessageList";

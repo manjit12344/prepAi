@@ -7,6 +7,7 @@ import ChatSessiion from "./pages/04.chatSession";
 import History from "./pages/05.history";
 import Logger from "./components/03.handling.jsx";
 import Nav from "./components/01.nav";
+import Resume from "./pages/05.resume.jsx"
 
 function App() {
   const location = useLocation();
@@ -20,6 +21,7 @@ function App() {
       {!shouldHideNav && <Nav />}
 
       <Routes>
+        <Route path="/resume" element={<Resume />}/>
         <Route path="" element={<Features />}/>
         <Route path="/login-signup" element={<Login />} />
         <Route path="/features" element={<Features />} />
