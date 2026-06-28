@@ -5,7 +5,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const base_url = "http://localhost:3000"
+const base_url = "https://prep-ai-backend-tbhe.vercel.app"
 
 
 export const userChat = create((set, get) => ({

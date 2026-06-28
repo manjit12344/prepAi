@@ -28,7 +28,7 @@ const useResumeStore = create((set) => ({
     clearResume: () => set({ resumeUrl: "", review: null }),
 
     toServer: async (url) => {
-        const response = await axios.post("http://localhost:3000/resume", {
+        const response = await axios.post("https://prep-ai-backend-tbhe.vercel.app/resume", {
             url: url
         });
 
