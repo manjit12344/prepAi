@@ -20,6 +20,9 @@ const ChatSession = () => {
   const [answer, setAnswer] = useState("");
   const bottomRef = useRef(null);
 
+  // Interview status
+  const isComplete = aiResponse?.aiChat?.isInterviewComplete ?? false;
+
   useEffect(() => {
     const checkAuth = async () => {
       await knowMe();
@@ -38,10 +41,12 @@ const ChatSession = () => {
   }, [chat, aiResponse, loading]);
 
   const send = async () => {
-    if (!answer.trim() || loading) return;
+    // Prevent sending if interview is complete
+    if (!answer.trim() || loading || isComplete) return;
 
     const currentQId = chat?.[chat.length - 1]?.id || null;
     const text = answer;
+
     setAnswer("");
 
     try {
@@ -58,30 +63,50 @@ const ChatSession = () => {
       send();
     }
   };
-
-  if (!know?.user) {
-    return <UnauthorizedNotice />;
+if (!know?.user) {
+    return (
+      <Link to = "/login-with-google">
+      <div className="flex min-h-screen bg-canvas items-center justify-center font-mono text-xs text-muted">
+        <div className="border border-line p-6 rounded bg-card/40">
+          Please log in to get access .
+        </div>
+      </div></Link>
+    );
   }
+  const { messages, hasStarted } = buildChatMessages(
+    chat,
+    aiResponse,
+    isComplete
+  );
+    return (
+  <div className="flex h-[100dvh] flex-col bg-canvas text-main overflow-hidden">
 
-  const isComplete = aiResponse?.aiChat?.isInterviewComplete;
-  const { messages, hasStarted } = buildChatMessages(chat, aiResponse, isComplete);
+    <SessionHeader
+      sessionId={nId}
+      isComplete={isComplete}
+      loading={loading}
+    />
 
-  return (
-    <div>
-      <SessionHeader sessionId={nId} isComplete={isComplete} loading={loading} />
-
-      <MessageList ref={bottomRef} messages={messages} loading={loading} />
-
-      <ChatInputArea
-        isComplete={isComplete}
-        answer={answer}
-        setAnswer={setAnswer}
-        onKeyDown={onKeyDown}
-        onSend={send}
+    <div className="flex-1 min-h-0 overflow-hidden">
+      <MessageList
+        ref={bottomRef}
+        messages={messages}
         loading={loading}
-        hasStarted={hasStarted}
       />
     </div>
+
+    <ChatInputArea
+      isComplete={isComplete}
+      answer={answer}
+      setAnswer={setAnswer}
+      onKeyDown={onKeyDown}
+      onSend={send}
+      loading={loading}
+      hasStarted={hasStarted}
+    />
+
+  </div>
+
   );
 };
 

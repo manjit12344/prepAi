@@ -7,6 +7,8 @@ const base_url = "http://localhost:3000"
 export const useHistory = create((set, get) => ({
     chat: [],
     interview: [],
+    completed:[],
+    analytics:{},
     loading: false,
     error: null,
 
@@ -25,13 +27,23 @@ export const useHistory = create((set, get) => ({
          set({ loading: true, error: null });
          try{
             const response = await axios.get(`${base_url}/hist/allInterview`, )
-            set({interview:response.data.response,loading:false,error:null})
+            set({interview:response.data.response,completed:response.data.response2,loading:false,error:null});
+            return response.data.response;
             
          }catch(error){
             set({ error: error.message, loading: false })
          }
       
-    }
-    
+    },
+    analysis:async (interviewId,userId)=>{
+        set({ loading: true, error: null });
+        try{
+           let response = await axios.get(`${base_url}/hist/${interviewId}/${userId}`);
+             set({analytics:response.data.response,loading:false,error:null});
+             return response.data.response;
 
+        }catch(error){
+            set({ error: error.message, loading: false })
+        } 
+    }
 }))

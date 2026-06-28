@@ -6,9 +6,14 @@ import React from "react";
 // around for debugging.
 export default function FormDebugPreview({ form }) {
   return (
-    <>
-      <h4>Current Form</h4>
-      <pre>{JSON.stringify(form, null, 2)}</pre>
-    </>
+    <div className="hidden md:block mt-8 rounded-lg border border-line bg-canvas/40 p-4">
+      <div className="text-xs text-muted mb-2 font-mono">
+        Session Preview
+      </div>
+
+      <pre className="text-xs text-muted overflow-auto font-mono">
+        {JSON.stringify(form, null, 2)}
+      </pre>
+    </div>
   );
 }

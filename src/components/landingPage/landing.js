@@ -13,13 +13,28 @@ export const FEATURES = [
       "Practice questions that feel like actual interviews from top tech companies."
   },
   {
-    label: "Instant Feedback",
-    detail:
-      "Get detailed feedback on communication, problem solving and technical depth."
-  },
-  {
     label: "AI Interviewer",
     detail:
-      "Adaptive interview sessions that respond naturally to your answers."
-  }
+      "Have natural conversations with an AI interviewer that adapts to your answers."
+  },
+  {
+    label: "Detailed Performance Analysis",
+    detail:
+      "See how you performed across technical skills, communication, confidence, and problem-solving."
+  },
+  {
+    label: "ATS Resume Review & insights",
+    detail:
+      "Check how your resume performs against ATS systems before you start applying."
+  },
+  {
+    label: "Clean & Distraction-Free",
+    detail:
+      "A simple, fast interface that keeps the focus on your interview practice."
+  },
+  {
+    label: "Track Your Progress",
+    detail:
+      "Compare your results over time and see how your interview skills improve with practice."
+  },
 ];

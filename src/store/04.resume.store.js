@@ -3,7 +3,7 @@ import axios from "axios";
 
 const useResumeStore = create((set) => ({
     resumeUrl: "",
-    review: "",
+    review: null, // Initialized as null since it will hold a structured object now
 
     uploadResume: async (file) => {
         const formData = new FormData();
@@ -25,20 +25,44 @@ const useResumeStore = create((set) => ({
         return response.data.secure_url;
     },
 
-    clearResume: () => set({ resumeUrl: "" }),
+    clearResume: () => set({ resumeUrl: "", review: null }),
 
     toServer: async (url) => {
-
         const response = await axios.post("http://localhost:3000/resume", {
             url: url
-        })
-        set({ review: response.data });
-        return review;
+        });
+
+        // 1. Target the markdown string wrapped inside response.data.response
+        const rawResponseString = response.data.response || "";
+
+        try {
+            // 2. Safely strip Markdown boundaries
+            const cleanJsonString = rawResponseString
+                .replace(/^```json\s*/i, "")
+                .replace(/\s*```$/, "")
+                .trim();
+
+            // 3. Parse it into a functional object
+            const parsedReview = JSON.parse(cleanJsonString);
+
+            set({ review: parsedReview });
+            return parsedReview;
+
+        } catch (error) {
+            console.error("Error parsing AI response inside store:", error);
+            
+            // Fallback object structure just in case the AI or parser fails
+            const fallbackReview = {
+                atsScore: 0,
+                strengths: [],
+                weaknesses: ["Failed to properly analyze payload structural design."],
+                suggestions: []
+            };
+            
+            set({ review: fallbackReview });
+            return fallbackReview;
+        }
     }
-
-
-
-
 }));
 
 export default useResumeStore;

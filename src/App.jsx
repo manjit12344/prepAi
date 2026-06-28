@@ -8,19 +8,21 @@ import History from "./pages/05.history";
 import Logger from "./components/03.handling.jsx";
 import Nav from "./components/01.nav";
 import Resume from "./pages/05.resume.jsx"
+import Analysis from "./pages/06.analytics.jsx"
 
 function App() {
   const location = useLocation();
 
   const shouldHideNav =
     location.pathname === "/login-signup" ||
-    location.pathname.startsWith("/chatSession");
+    location.pathname.startsWith("/chatSession"); 
 
   return (
     <div>
       {!shouldHideNav && <Nav />}
 
       <Routes>
+        <Route path="/analytics/:interviewId/:userId" element={<Analysis/>}/>
         <Route path="/resume" element={<Resume />}/>
         <Route path="" element={<Features />}/>
         <Route path="/login-signup" element={<Login />} />
