@@ -121,7 +121,7 @@ const Login = () => {
 
                 {/* Google Button */}
                 <a
-                  href="https://prep-ai-backend-tbhe.vercel.app/auth/google"
+                  href="/api/auth/google"
                   className="w-full h-11 border border-line rounded-lg bg-canvas flex items-center justify-center gap-3 hover:opacity-80 transition-all no-underline"
                 >
                   <svg

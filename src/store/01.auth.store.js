@@ -16,7 +16,7 @@ export const userAuth = create((set, get) => ({
     knowMe: async () => {
         set({ loading: true });
         try{
-         const response = await axios.get(`${base_url}/knowMe`)
+         const response = await axios.get(`api/knowMe`)
          set({know:response.data,error:null,loading:false});
 
         }catch(error){

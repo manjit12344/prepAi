@@ -19,11 +19,9 @@ const Features = () => {
     checkAuth();
   }, []);
 
-  useEffect(() => {
     if (authChecked && !know?.user) {
       navigate("/login-signup");
     }
-  }, [authChecked, know, navigate]);
 
   if (!authChecked || !know?.user) {
     return null;

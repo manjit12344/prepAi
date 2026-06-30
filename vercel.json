@@ -1,6 +1,8 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://prep-ai-backend-tbhe.vercel.app/:path*" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/(.*)",
+      "destination": "https://prep-ai-backend-tbhe.vercel.app/$1"
+    }
   ]
 }
